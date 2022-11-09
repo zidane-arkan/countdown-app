@@ -1,5 +1,6 @@
 import React,{useRef,useState,useEffect} from 'react';
 import ReactDOM from "react-dom";
+import video from '../assets/video.mp4';
 
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
@@ -29,7 +30,7 @@ const RenderTime = ({ remainingTime }) => {
                     loop
                     controls
                     alt="All the devices"
-                    src="https://stream.mux.com/6fiGM5ChLz8T66ZZiuzk1KZuIKX8zJz00/medium.mp4"
+                    src={video}
                     ref={videoEl}
                 />
             </div>
