@@ -7,23 +7,25 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 
 const RenderTime = ({ remainingTime }) => {
-    // const [IsStatus, setIsStatus] = useState(false);
-    // useEffect(() => {
-    //     attemptPlay();
-    // }, []);
-    const videoEl = useRef(null);
-    const attemptPlay = () => {
-        videoEl &&
-        videoEl.current &&
-        videoEl.current.play().catch(error => {
-            console.error("Error attempting to play", error);
-        });
+    const [isStatus, setIsStatus] = useState('active');
+    const changeStatus = (e) => { 
+        setIsStatus('disable');
     };
-    
+    const videoEl = useRef(null);
+    // const attemptPlay = () => {
+    //     videoEl &&
+    //     videoEl.current &&
+    //     videoEl.current.play().catch(error => {
+    //         console.error("Error attempting to play", error);
+    //     });
+    // };
+
     if (remainingTime === 0) {
         // attemptPlay();
+
         return (
-            <div class="objectVideo">
+            <div class={`object-video ${isStatus}`}>
+                <button onClick={changeStatus}> Close</button>
                 <video
                     style={{ maxWidth: "1000px", width: "1000px", margin: "0 auto" }}
                     playsInline
@@ -46,21 +48,43 @@ const RenderTime = ({ remainingTime }) => {
     );
 };
 
+
+
 const Countdown = () => {
-  return (
-     <div className="timer-wrapper">
-        <CountdownCircleTimer
-            size={500}
-            isPlaying
-            duration={5}
-            colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-            colorsTime={[10, 6, 3, 0]}
-            onComplete={() => ({ shouldRepeat: false, delay: 1 })}
-        >
-          {RenderTime}
-        </CountdownCircleTimer>
-      </div>
-  )
+    const [status, setStatus] = useState({
+        isStatus: false,
+        isRepeat : false
+    });
+    // const [isStatus, setIsStatus] = useState('disable');
+    const changeStatus = (e) => { 
+        console.log(e.target.id);
+    };
+
+    return (
+        <section>
+            <div className="round__box">
+                <button id="round__btn" onClick={changeStatus}>
+                    Watch Now!
+                </button>
+           </div>
+            {
+                status.isStatus &&
+                <div className={`timer-wrapper`}>
+                    <CountdownCircleTimer
+                        size={500}
+                        isPlaying
+                        duration={3}
+                        colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+                        colorsTime={[10, 6, 3, 0]}
+                        onComplete={() => ({ shouldRepeat: status.isRepeat, delay: 1 })}
+                    >
+                        {RenderTime}
+                    </CountdownCircleTimer>
+                </div>
+            }
+        
+        </section>
+    )
 }
 
 export default Countdown;
